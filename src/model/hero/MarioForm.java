@@ -10,7 +10,7 @@ public class MarioForm {
     public static final int SMALL = 0, SUPER = 1, FIRE = 2;
 
     private Animation animation;
-    private boolean isSuper, isFire; //note: fire form has priority over super form
+    private boolean isSuper, isFire;
     private BufferedImage fireballStyle;
 
     public MarioForm(Animation animation, boolean isSuper, boolean isFire){
@@ -57,7 +57,7 @@ public class MarioForm {
     }
 
     public Fireball fire(boolean toRight, double x, double y) {
-        if(isFire){
+        if(isFire|| isSuper){
             return new Fireball(x, y + 48, fireballStyle, toRight);
         }
         return null;

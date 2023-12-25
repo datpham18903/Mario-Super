@@ -48,4 +48,5 @@ public class Camera {
         if(frameNumber < 0)
             shaking = false;
     }
+
 }

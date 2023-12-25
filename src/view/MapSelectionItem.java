@@ -6,38 +6,39 @@ import java.io.File;
 
 public class MapSelectionItem {
 
-	private BufferedImage image;
-	private String name;
-	private Point location;
-	private Dimension dimension;
+    private BufferedImage image;
+    private String name;
+    private Point location;
+    private Dimension dimension;
 
-	public MapSelectionItem(String map, Point location) {
-		this.location = location;
-		this.name = map;
+    public MapSelectionItem(String map, Point location){
+        this.location = location;
+        this.name = map;
 
-		ImageLoader loader = new ImageLoader();
-		this.image = loader.loadImage("/maps/" + map);
+        ImageLoader loader = new ImageLoader();
+        this.image = loader.loadImage("/maps/" + map);
 
-		this.dimension = new Dimension();
-	}
+        this.dimension = new Dimension();
+    }
 
-	public String getName() {
-		return name;
-	}
 
-	public Point getLocation() {
-		return location;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public Dimension getDimension() {
-		return dimension;
-	}
+    public Point getLocation() {
+        return location;
+    }
 
-	public void setDimension(Dimension dimension) {
-		this.dimension = dimension;
-	}
+    public Dimension getDimension() {
+        return dimension;
+    }
 
-	public void setLocation(Point location) {
-		this.location = location;
-	}
+    public void setDimension(Dimension dimension) {
+        this.dimension = dimension;
+    }
+
+    public void setLocation(Point location) {
+        this.location = location;
+    }
 }

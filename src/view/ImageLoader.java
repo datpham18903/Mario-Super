@@ -4,27 +4,46 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 public class ImageLoader {
 
     private BufferedImage marioForms;
     private BufferedImage brickAnimation;
+    private BufferedImage bowser; // Add this line
+    private BufferedImage bowserRight;
+
 
     public ImageLoader(){
         marioForms = loadImage("/mario-forms.png");
         brickAnimation = loadImage("/brick-animation.png");
+        bowser = loadImage("/bowser.png");
     }
 
     public BufferedImage loadImage(String path){
         BufferedImage imageToReturn = null;
 
         try {
-            imageToReturn = ImageIO.read(getClass().getResource("/media" + path));
+            URL resourceUrl = getClass().getResource("/media" + path);
+            if (resourceUrl != null) {
+                imageToReturn = ImageIO.read(resourceUrl);
+            } else {
+                System.err.println("Resource not found: /media" + path);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         return imageToReturn;
+    }
+
+
+
+    public BufferedImage getBowserImage() {
+        return bowser;
+    }
+    public BufferedImage getBowserRightImage() {
+        return bowserRight;
     }
 
     public BufferedImage loadImage(File file){

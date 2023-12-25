@@ -8,6 +8,5 @@ public enum GameStatus {
     MAP_SELECTION,
     HELP_SCREEN,
     MISSION_PASSED,
-    ABOUT_SCREEN,
-    VICTORY
+    ABOUT_SCREEN
 }
