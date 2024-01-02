@@ -10,13 +10,15 @@ import view.ImageLoader;
 
 public class Bowser extends Enemy {
 	private BufferedImage rightImage;
-	private BufferedImage atkImage;
+	private BufferedImage atkImage, atkRightImage;
 	private int remainingLives;
 	private Timer timer = new Timer();
 	private boolean isInvincible = false;
 	private int maxLives;
 	private BufferedImage fireballStyle;
 	private long lastFireTime = 0;
+	private boolean isAttacking = false;
+	private boolean isRight = false;
 
 	public Bowser(double x, double y, BufferedImage style) {
 		super(x, y, style);
@@ -30,19 +32,33 @@ public class Bowser extends Enemy {
 
 	public void draw(Graphics g) {
 		if (!isInvincible || System.currentTimeMillis() % 100 < 50) {
-			if (this.getVelX() > 0.0) {
-				g.drawImage(this.rightImage, (int) this.getX(),
-						(int) this.getY(), (ImageObserver) null);
+			if (this.isAttacking) {
+				if (this.isRight) {
+					g.drawImage(this.atkRightImage, (int) this.getX() + 24,
+							(int) this.getY(), (ImageObserver) null);
+				} else {
+					g.drawImage(this.atkImage, (int) this.getX() - 96,
+							(int) this.getY(), (ImageObserver) null);
+				}
 			} else {
-				super.draw(g);
+				if (this.isRight) {
+					g.drawImage(this.rightImage, (int) this.getX(),
+							(int) this.getY(), (ImageObserver) null);
+				} else {
+					super.draw(g);
+				}
 			}
 		}
 	}
+
 	public void setRightImage(BufferedImage rightImage) {
 		this.rightImage = rightImage;
 	}
-	public void setAtkImage(BufferedImage atkImage) {
+
+	public void setAtkImage(BufferedImage atkImage,
+			BufferedImage atkRightImage) {
 		this.atkImage = atkImage;
+		this.atkRightImage = atkRightImage;
 	}
 
 	public int getRemainingLives() {
@@ -70,13 +86,36 @@ public class Bowser extends Enemy {
 		long currentTime = System.currentTimeMillis();
 		// Fire each 1second
 		if (currentTime - lastFireTime >= 1000) {
+			this.isAttacking = true;
+			this.timer.schedule(new TimerTask() {
+				public void run() {
+					Bowser.this.isAttacking = false;
+				}
+			}, 300L);
 			lastFireTime = currentTime;
 			double x = Bowser.this.getX();
-			x += Bowser.this.getVelX() > 0.0 ? this.getBounds().width : 0;
-			return new BowserFireBall(x,
-					Bowser.this.getY() + 96, fireballStyle,
-					Bowser.this.getVelX() > 0.0);
+			x += this.isRight ? this.getBounds().width : 0;
+			return new BowserFireBall(x, this.getY() + 72, fireballStyle,
+					this.isRight);
 		}
 		return null;
+	}
+
+	public void prepareAttack() {
+		double velX = this.getVelX();
+		if (velX == 0) {
+			return;
+		}
+		if (velX > 0.0) {
+			this.isRight = true;
+		} else {
+			this.isRight = false;
+		}
+		this.setVelX(0);
+		this.timer.schedule(new TimerTask() {
+			public void run() {
+				Bowser.this.setVelX(velX);
+			}
+		}, 5000L);
 	}
 }

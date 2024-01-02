@@ -96,9 +96,11 @@ public class MapManager {
 			if (enemy instanceof Bowser) {
 				Bowser bowser = (Bowser) enemy;
 				drawHealthBar(g2, bowser);
-				BowserFireBall fireball = bowser.fire();
-				if (fireball != null) {
-					addObjects.add(fireball);
+				if ((int)(bowser.getVelX()) == 0) {
+					BowserFireBall fireball = bowser.fire();
+					if (fireball != null) {
+						addObjects.add(fireball);
+					}
 				}
 			}
 		}
@@ -326,6 +328,9 @@ public class MapManager {
 							toBeRemoved.add(enemy);
 						} else {
 							enemy.setVelX(-enemy.getVelX());
+							if (enemy instanceof Bowser) {
+								((Bowser) enemy).prepareAttack();
+							}
 						}
 					}
 

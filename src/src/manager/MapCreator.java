@@ -22,7 +22,7 @@ class MapCreator {
 	private BufferedImage ordinaryBrick, surpriseBrick, groundBrick, pipe;
 	private BufferedImage goombaLeft, goombaRight, koopaLeft, koopaRight,
 			endFlag;
-	private BufferedImage bowser, bowserRight, bowserAtk;
+	private BufferedImage bowser, bowserRight, bowserAtk, bowserAtkRight;
 
 	MapCreator(ImageLoader imageLoader) {
 
@@ -46,6 +46,7 @@ class MapCreator {
 		this.bowser = imageLoader.loadImage("/bowser.png");
 		this.bowserRight = imageLoader.loadImage("/bowserRight.png");
 		this.bowserAtk = imageLoader.loadImage("/bowser_attack.png");
+		this.bowserAtkRight = imageLoader.loadImage("/bowser_attack_right.png");
 	}
 
 	Map createMap(String mapPath, double timeLimit) {
@@ -105,7 +106,7 @@ class MapCreator {
 				else if (currentPixel == bowser) {
 					Enemy enemy = new Bowser(xLocation, yLocation, this.bowser);
 					((Bowser) enemy).setRightImage(bowserRight);
-					((Bowser) enemy).setAtkImage(bowserAtk);
+					((Bowser) enemy).setAtkImage(bowserAtk, bowserAtkRight);
 					createdMap.addEnemy(enemy);
 				} else if (currentPixel == koopa) {
 					Enemy enemy = new KoopaTroopa(xLocation, yLocation,
